@@ -1,0 +1,8 @@
+curl -X POST http://localhost:3100:/api/record 
+-H "Content-Type: application/json"
+-d '{
+    "id": "7294",
+    "Category": "",
+    "Question": "If you have two US coins totaling 55 cents, and one of them is not a nickel, what are the coins?",
+    "Answer": "A half dollar and a nickel."
+  }'  

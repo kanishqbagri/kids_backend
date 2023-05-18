@@ -36,14 +36,18 @@ router.get('/gk', (req, res) => {
     const collection = db.collection(collectionName);
 
     // Execute the query and apply pagination
-    const batchSize = 20;
+    const questionCount = parseInt(req.query.count) || 25; // Get the question count from the query parameters or default to 20
+    const lastTwoBitsSum = parseInt(req.query.offset) || 0; // Get the lastTwoBitsSum from the query parameters or default to 0
+    const startOffset = lastTwoBitsSum + 1;
+    const startIndex = startOffset - 1;
+    const endIndex = startIndex + questionCount;
     const pageNumber = parseInt(req.query.page) || 1;
-    const skipCount = (pageNumber - 1) * batchSize;
+    const skipCount = (pageNumber - 1) * questionCount;
 
     collection
       .find(query)
-      .skip(skipCount)
-      .limit(batchSize)
+      .skip(startIndex)
+      .limit(questionCount)
       .toArray((err, data) => {
         if (err) {
           console.error('Error executing MongoDB query:', err);
